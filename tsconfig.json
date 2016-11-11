@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+      "target": "es5",
+      "noImplicitAny": false,
+      "out": "./build/app.js",
+      "rootDir": ".",
+      "module": "commonjs",
+      "sourceMap": true
+  },
+  "exclude": [
+      "node_modules"
+  ],
+  "buildOnSave": true
+}

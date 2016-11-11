@@ -1,0 +1,99 @@
+/// <reference path = "phaser.d.ts" />
+
+module TurtleGame {
+  class TurtleGame extends Phaser.Game {
+      game: Phaser.Game;
+      graphics: any;
+      cursors: any;
+      turtle: any;
+
+      constructor() {
+          this.game = new Phaser.Game(800, 600, Phaser.AUTO, 'content', {
+              preload: this.preload,
+              create: this.create,
+              update: this.update,
+              render: this.render
+          });
+          super(800, 600, Phaser.AUTO, 'phaserDemo', {create: this.create});
+      }
+
+      preload() {
+          // this.game.load.image('logo', 'phaser.png');
+            this.game.load.spritesheet('turtle', 'images/turtle.png', 112, 77, 5);
+      }
+
+      // shoot() {
+      //   let g = this.game.add.graphics(220, 160);
+      //   // console.log(g);
+      //   g.beginFill(0xFF0000);
+      //   g.drawRect(0, 0, 20, 2);
+      //   g.rotation = -0.5;
+      //   var t = this.game.add.tween(g).to({
+      //       width: 20,
+      //       x: 570,
+      //       y:70
+      //     }, 500)
+      //     .to({
+      //         width: 0
+      //       }, 10)
+      //     .start()
+      // }
+
+      create() {
+
+          this.game.physics.startSystem(Phaser.Physics.ARCADE);
+          this.graphics = this.game.add.graphics(0, 0);
+          this.graphics.beginFill(0xFFFF00, 1);
+          this.graphics.drawCircle(600, 50, 40);
+          this.game.physics.enable(this.graphics, Phaser.Physics.ARCADE);
+          this.graphics.body.collideWorldBounds = true;
+
+          this.graphics.body.bounce.set(1.1);
+          this.cursors = this.game.input.keyboard.createCursorKeys();
+
+          this.turtle = this.game.add.sprite(200, 200, 'turtle');
+          this.turtle.animations.add('walk', null, 1);
+          this.turtle.anchor.setTo(.5, 1);
+          this.turtle.scale.x *= -1;
+          this.turtle.animations.play('walk', 15, true);
+          console.log(this);
+          this.shoot();
+          setInterval(() => {
+            this.shoot();
+          }, 1000)
+          // this.graphics.body.velocity.setTo(400, 400);
+          // var logo = this.game.add.sprite(this.game.world.centerX, this.game.world.centerY, 'logo');
+          // logo.anchor.setTo(0.5, 0.5);
+      }
+
+      update() {
+
+
+
+          if (this.cursors.up.isDown)
+           {
+               this.graphics.body.velocity.y = -300;
+           }
+           if (this.cursors.down.isDown)
+           {
+               this.graphics.body.velocity.y =  300;
+           }
+           if (this.cursors.left.isDown)
+           {
+               this.graphics.body.velocity.x = -300;
+           }
+           if (this.cursors.right.isDown)
+           {
+               this.graphics.body.velocity.x = 300;
+           }
+
+        // this.game.physics.arcade.moveToPointer(this.graphics, 60, this.game.input.activePointer, 500);
+      }
+      render() {
+          // game.debug.spriteInfo(sprite, 32, 32);
+      }
+  }
+  window.onload = () => {
+      var game = new TurtleGame();
+  };
+}
